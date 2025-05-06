@@ -1,3 +1,41 @@
+@import "tailwindcss";
 *{
     margin: 0;
+}
+
+
+@theme{
+  --color-background: oklch(98.5% 0.001 106.423);
+  --color-green: oklch(80% 0.2 140);
+  --color-blue: oklch(75% 0.15 250);
+  --color-orange: oklch(85% 0.18 60);
+  --color-pink: oklch(88% 0.12 330);
+
+  /* Gradient cơ bản */
+  --color-my-gradient: linear-gradient(to right, var(--color-green), var(--color-blue));
+
+
+  --text-header: 1.5rem;
+
+  --color-textdef: #1e293b;
+}
+
+@layer utilities {
+  .bg-my-gradient {
+    background-image: var(--color-my-gradient);
+  }
+
+  .clip-v {
+    clip-path: polygon(0 0, 50% 100%, 100% 0, 100% 100%, 0 100%);
+  }
+}
+
+@layer components{
+  .container-width {
+    @apply w-full max-w-6xl;
+  }
+
+  .border-custom-box {
+    @apply border border-orange-300;
+  }
 }
