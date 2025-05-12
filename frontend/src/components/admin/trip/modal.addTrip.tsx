@@ -34,7 +34,13 @@ const ModalAddTrip = (pros: any) => {
       }
     };
     fetchDataAsync();
-  }, [])
+    if (priceDefault) {
+      onChangePrice();
+    }
+    if (time) {
+      onChangeHour();
+    }
+  }, [priceDefault, time])
 
   const onCancel = () => {
     fetchData()
@@ -82,6 +88,8 @@ const ModalAddTrip = (pros: any) => {
       return
     }
     const { type } = JSON.parse(value);
+    console.log(type)
+    console.log(priceDefault)
     if (type && priceDefault) {
       type === "bed" ? form.setFieldValue("price", priceDefault.priceForSleep) : form.setFieldValue("price", priceDefault.priceForSeat)
     }
@@ -90,10 +98,10 @@ const ModalAddTrip = (pros: any) => {
   const onChangeestimatedTime = (value: any) => {
     const { estimatedTime, priceForSleep, priceForSeat } = JSON.parse(value)
     setPriceDefault({ priceForSleep: priceForSleep, priceForSeat: priceForSeat })
-    // form.setFieldValue("price", priceForSleep)
     setTime(estimatedTime)
-    onChangePrice()
-    onChangeHour()
+    console.log("goi khi thay doi route: ", priceDefault, { priceForSleep: priceForSleep, priceForSeat: priceForSeat })
+    // onChangePrice()
+    // onChangeHour()
   };
 
   return (

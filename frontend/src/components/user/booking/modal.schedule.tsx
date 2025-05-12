@@ -16,7 +16,6 @@ const ModalSchedule = (pros: any) => {
       maskClosable={false}
       footer={null}
       centered>
-
     </Modal>
   )
 

@@ -10,7 +10,7 @@ import ModalAddBusRoute from './modal.addTrip';
 import ModalEditBusRoute from './modal.editTrip';
 import { busRouteAll } from '@/utils/actions/busRoute';
 import { tripAll, tripDelete } from '@/utils/actions/trip.action';
-import { toVietnamTimeDate } from '@/utils/util';
+import { formatDateToVN } from '@/utils/util';
 
 
 const TableTrip = () => {
@@ -54,7 +54,7 @@ const TableTrip = () => {
       key: 'departure_time',
       width: 200,
       render: (value, record) => {
-        return value ? toVietnamTimeDate(value) : '-';
+        return value ? formatDateToVN(value) : '-';
       }
     },
     {
@@ -63,7 +63,7 @@ const TableTrip = () => {
       key: 'arrival_time',
       width: 200,
       render: (value, record) => {
-        return value ? toVietnamTimeDate(value) : '-';
+        return value ? formatDateToVN(value) : '-';
       }
     },
 

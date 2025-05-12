@@ -3,6 +3,49 @@ import { auth } from "@/auth";
 import { sendRequest } from "../api";
 
 
+const data: any[] = [
+  { position: "A01", status: "available" },
+  { position: "B01", status: "occupied" },
+  { position: "A02", status: "available" },
+  { position: "B02", status: "available" },
+  { position: "A03", status: "available" },
+  { position: "B03", status: "available" },
+  { position: "A04", status: "available" },
+  { position: "B04", status: "available" },
+  { position: "A05", status: "occupied" },
+  { position: "B05", status: "occupied" },
+  { position: "A06", status: "available" },
+  { position: "B06", status: "available" },
+  { position: "A07", status: "available" },
+  { position: "B07", status: "available" },
+  { position: "A08", status: "available" },
+  { position: "B08", status: "available" },
+  { position: "A09", status: "occupied" },
+  { position: "B09", status: "available" },
+  { position: "A10", status: "available" },
+  { position: "B10", status: "available" },
+  { position: "A11", status: "available" },
+  { position: "B11", status: "occupied" },
+  { position: "A12", status: "available" },
+  { position: "B12", status: "available" },
+  { position: "A13", status: "available" },
+  { position: "B13", status: "available" },
+  { position: "A14", status: "available" },
+  { position: "B14", status: "available" },
+  { position: "A15", status: "available" },
+  { position: "B15", status: "available" },
+  { position: "A16", status: "available" },
+  { position: "B16", status: "available" },
+  { position: "A17", status: "available" },
+  { position: "B17", status: "available" },
+  { position: "A18", status: "available" },
+  { position: "B18", status: "available" },
+  { position: "A19", status: "available" },
+  { position: "B19", status: "available" },
+  { position: "A20", status: "available" },
+  { position: "B20", status: "available" }
+];
+
 
 export async function getDataTrip() {
   try {
@@ -75,53 +118,38 @@ export async function tripDelete(_id: string) {
 }
 
 
-export async function getSeat() {
+export async function findSchedule(data: any) {
   try {
     // const { data: session } = useSession()
     // console.log(session)
+    const sesion = await auth();
+    const token = sesion?.user.access_token;
+    const r = await sendRequest<IBackendRes<IListMeta<ITrip>>>({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_BACKEND}/v1/trips/schedule`,
+      token: token,
+      queryParams: data
+    })
+    return r
+  } catch (error) {
 
-    const data: any[] = [
-      { position: "A01", status: "available" },
-      { position: "B01", status: "occupied" },
-      { position: "A02", status: "available" },
-      { position: "B02", status: "available" },
-      { position: "A03", status: "available" },
-      { position: "B03", status: "available" },
-      { position: "A04", status: "available" },
-      { position: "B04", status: "available" },
-      { position: "A05", status: "occupied" },
-      { position: "B05", status: "occupied" },
-      { position: "A06", status: "available" },
-      { position: "B06", status: "available" },
-      { position: "A07", status: "available" },
-      { position: "B07", status: "available" },
-      { position: "A08", status: "available" },
-      { position: "B08", status: "available" },
-      { position: "A09", status: "occupied" },
-      { position: "B09", status: "available" },
-      { position: "A10", status: "available" },
-      { position: "B10", status: "available" },
-      { position: "A11", status: "available" },
-      { position: "B11", status: "occupied" },
-      { position: "A12", status: "available" },
-      { position: "B12", status: "available" },
-      { position: "A13", status: "available" },
-      { position: "B13", status: "available" },
-      { position: "A14", status: "available" },
-      { position: "B14", status: "available" },
-      { position: "A15", status: "available" },
-      { position: "B15", status: "available" },
-      { position: "A16", status: "available" },
-      { position: "B16", status: "available" },
-      { position: "A17", status: "available" },
-      { position: "B17", status: "available" },
-      { position: "A18", status: "available" },
-      { position: "B18", status: "available" },
-      { position: "A19", status: "available" },
-      { position: "B19", status: "available" },
-      { position: "A20", status: "available" },
-      { position: "B20", status: "available" }
-    ];
+  }
+}
+
+
+
+
+
+export async function getSeat(id: string) {
+  try {
+    const sesion = await auth();
+    const token = sesion?.user.access_token;
+    const data = await sendRequest<IBackendRes<ITrip>>({
+      method: "GET",
+      url: `${process.env.NEXT_PUBLIC_BACKEND}/v1/trips`,
+      param: id,
+      token: token
+    })
     return data
   } catch (error) {
 

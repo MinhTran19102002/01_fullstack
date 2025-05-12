@@ -6,6 +6,8 @@ import { userAdd } from "@/utils/actions/user.action";
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Radio, Row, Select } from "antd";
 import { useState } from "react";
 
+export const LOCATIONS = ['Kiên Giang', 'An Giang', 'Cần Thơ', 'Đồng Tháp', 'Bình Dương', 'Đồng Nai', 'Hồ Chí Minh'];
+
 const ModalAddBusRoute = (pros: any) => {
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [form] = Form.useForm();
@@ -13,7 +15,7 @@ const ModalAddBusRoute = (pros: any) => {
 
   const { Option } = Select;
 
-  const locations = ['Kiên Giang', 'An Giang', 'Cần Thơ', 'Đồng Tháp', 'Bình Dương', 'Đồng Nai', 'Hồ Chí Minh'];
+
 
   const onCancel = () => {
     form.resetFields()
@@ -65,7 +67,7 @@ const ModalAddBusRoute = (pros: any) => {
             ]}
           >
             <Select placeholder="Chọn điểm đi">
-              {locations.map((loc) => (
+              {LOCATIONS.map((loc) => (
                 <Option key={loc} value={loc}>
                   {loc}
                 </Option>
@@ -81,7 +83,7 @@ const ModalAddBusRoute = (pros: any) => {
             ]}
           >
             <Select placeholder="Chọn điểm đến">
-              {locations.map((loc) => (
+              {LOCATIONS.map((loc) => (
                 <Option key={loc} value={loc}>
                   {loc}
                 </Option>

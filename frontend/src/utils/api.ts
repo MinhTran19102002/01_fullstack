@@ -27,7 +27,6 @@ export const sendRequest = async <T>(props: IRequest) => { //type
     url = `${url}?${queryString.stringify(queryParams)}`;
   }
   if (param) {
-
     url = `${url}/${param}`
   }
 

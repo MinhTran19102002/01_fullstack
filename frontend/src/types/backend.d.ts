@@ -84,10 +84,21 @@ declare global {
     price: number;
     departure_time: Date,
     arrival_time: Date,
+    slots?: ISlot[];
     createdAt?: Date,
     updatedAt?: Date,
-    is_outbound
+    is_outbound: boolean,
   }
+
+  interface ISlot {
+    position: string;
+    status: string;
+  }
+
+  interface Seat {
+    position: string;
+    status: string;
+  };
 
 
   export interface IListMeta<T> {

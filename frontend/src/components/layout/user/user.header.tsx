@@ -15,7 +15,7 @@ const UserHeader = (pros: any) => {
   const menu = [
     { label: "Trang chủ", href: "/home" },
     { label: "Lịch trình", href: "/schedule" },
-    { label: "Đặt vé", href: "/booking" }
+    // { label: "Đặt vé", href: "/booking" }
   ];
 
   const handleLogout = () => {
@@ -62,7 +62,7 @@ const UserHeader = (pros: any) => {
         <nav className="relative inline-block text-left text-header font-medium justify-self-end" ref={menuRef}>
           {/* <Link href="/auth/login" className="hover:underline">Đăng nhập</Link>
           <Link href="/auth/register" className="hover:underline">Đăng ký</Link> */}
-          <button className="flex items-center space-x-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-medium px-4 py-2 rounded-full shadow hover:opacity-90 transition"
+          <button className="flex items-center space-x-2 bg-gradient-to-r from-orange-400 to-orange-500 text-white font-medium px-4 py-2 rounded-full shadow hover:opacity-90 transition hover:cursor-pointer"
             onClick={() => { setShowMenu(!showMenu) }}>
             {session?.user ?
               <span className="text-black text-sm">{session?.user.name}</span> :
