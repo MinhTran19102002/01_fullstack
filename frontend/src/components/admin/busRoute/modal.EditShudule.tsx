@@ -1,4 +1,4 @@
-import { busRouteUpdate } from "@/utils/actions/busRoute";
+import { busRouteUpdate } from "@/utils/actions/busRoute.action";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Modal, notification, Space } from "antd"
 import { useForm } from "antd/es/form/Form"

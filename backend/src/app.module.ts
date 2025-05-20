@@ -15,6 +15,7 @@ import { RolesGuard } from './modules/auth/passport/roles-auth.guard';
 import { BusesModule } from './modules/buses/buses.module';
 import { BusRouteModule } from './modules/busRoute/busRoute.module';
 import { TripsModule } from './modules/trips/trips.module';
+import { PaymentModule } from './modules/payment/payment.module';
 
 
 @Module({
@@ -66,6 +67,8 @@ import { TripsModule } from './modules/trips/trips.module';
     }),
 
     TripsModule,
+
+    PaymentModule,
 
   ],
   controllers: [AppController],

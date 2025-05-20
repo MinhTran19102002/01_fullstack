@@ -33,8 +33,9 @@ export class TripsController {
 
 
   @Get(':id')
+  @Public()
   findOne(@Param('id') id: string) {
-    return this.tripsService.findOne(+id);
+    return this.tripsService.findOne(id);
   }
 
   @Patch(':id')

@@ -27,6 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return {
             _id: user.data?.user._id,
             email: user.data?.user.email,
+            phone: user.data?.user.phone,
             name: user.data?.user.name,
             role: user.data?.user.role,
             access_token: user.data?.access_token,

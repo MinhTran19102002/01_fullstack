@@ -1,7 +1,7 @@
 'use client'
 
-import { busUpdate } from "@/utils/actions/bus.acction";
-import { busRouteUpdate } from "@/utils/actions/busRoute";
+import { busUpdate } from "@/utils/actions/bus.action";
+import { busRouteUpdate } from "@/utils/actions/busRoute.action";
 import { userUpdate } from "@/utils/actions/user.action";
 import { SwapOutlined } from "@ant-design/icons";
 import { Button, Col, Form, Input, InputNumber, Modal, notification, Radio, Row } from "antd";

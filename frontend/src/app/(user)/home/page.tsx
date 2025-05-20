@@ -1,3 +1,4 @@
+
 import ListTrip from "@/components/user/booking/ListTrip";
 import Banner from "@/components/user/home/Banner";
 import SearchBox from "@/components/user/home/SearchBox";

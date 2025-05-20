@@ -1,6 +1,6 @@
 'use client'
 
-import { busUpdate } from "@/utils/actions/bus.acction";
+import { busUpdate } from "@/utils/actions/bus.action";
 import { userUpdate } from "@/utils/actions/user.action";
 import { Button, Form, Input, Modal, notification, Radio } from "antd";
 import { useEffect, useState } from "react";

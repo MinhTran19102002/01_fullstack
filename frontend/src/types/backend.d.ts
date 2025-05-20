@@ -37,6 +37,7 @@ declare global {
       email: string,
       name: string,
       role: string,
+      phone: string,
     },
     access_token: string
   }

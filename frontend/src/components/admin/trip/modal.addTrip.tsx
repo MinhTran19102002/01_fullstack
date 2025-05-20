@@ -1,7 +1,7 @@
 'use client'
 
-import { busAdd } from "@/utils/actions/bus.acction";
-import { busRouteAdd } from "@/utils/actions/busRoute";
+import { busAdd } from "@/utils/actions/bus.action";
+import { busRouteAdd } from "@/utils/actions/busRoute.action";
 import { getDataTrip, tripAdd } from "@/utils/actions/trip.action";
 import { userAdd } from "@/utils/actions/user.action";
 import { Button, Col, DatePicker, Form, Input, InputNumber, Modal, notification, Radio, Row, Select } from "antd";

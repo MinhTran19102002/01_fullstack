@@ -1,9 +1,9 @@
 import { BadGatewayException, BadRequestException, Injectable } from '@nestjs/common';
 import { CreateTripDto } from './dto/create-trip.dto';
-import { UpdateTripDto } from './dto/update-trip.dto';
+import { SlotDto, UpdateTripDto } from './dto/update-trip.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Slot, Trip } from './entities/trip.entity';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import { Bus } from '../buses/entities/bus.entity';
 import { UsersService } from '../users/users.service';
 import { BusesService } from '../buses/buses.service';
@@ -39,7 +39,7 @@ export class TripsService {
       }
       const departure = toVietnamTimeDate(departure_time)
       const arrival = toVietnamTimeDate(arrival_time)
-      let slots: Slot[] = [];
+      let slots: SlotDto[] = [];
       if (findBus.capacity === 45) {
         for (let i = 1; i <= 45; i++) {
           const position = `A${String(i).padStart(2, "0")}`; // A01, A02, ..., A45
@@ -124,7 +124,10 @@ export class TripsService {
 
 
   async findSchedule(query: any) {
-    let { page, limit, select = true, day, ...params } = query
+    let { page, limit, day, departure = '', destination = '', ...params } = query
+    const startDay = new Date(day);
+    const endDay = new Date(startDay.getTime() + 24 * 60 * 60 * 1000);
+
     if (!page) {
       page = 1
     }
@@ -147,28 +150,113 @@ export class TripsService {
       Object.assign(filter, regex);
     }
 
-    if (select) {
-      const total = await this.tripModel.countDocuments(filter);
-      const data = await this.tripModel.find(filter).skip(skip).limit(limit)
-        .populate<{ bus: Bus }>("bus")
-        .populate<{ driver: User }>({ path: "driver", select: "-password" })
-        .populate<{ busRoute: BusRoute }>("busRoute");
-      return {
-        data: data,
-        total,
-        page,
-        limit,
-        totalPages: Math.ceil(total / limit),
-      };;
-    } else {
-      const data = await this.tripModel.find(filter);
-      return data
-    }
+    const matchCondition = {
+      ...filter,
+      departure_time: {
+        $gte: startDay,
+        $lt: endDay,
+      },
+      ...(departure && { 'busRoute.departure': departure }),
+      ...(destination && { 'busRoute.destination': destination }),
+    };
+    const countResult = await this.tripModel.aggregate([
+      {
+        $lookup: {
+          from: 'busroutes',
+          localField: 'busRoute',
+          foreignField: '_id',
+          as: 'busRoute',
+        },
+      },
+      { $unwind: '$busRoute' },
+      { $match: matchCondition },
+      { $count: 'total' },
+    ]);
+    const total = countResult[0]?.total || 0;
+    const data = await this.tripModel.aggregate([
+      // JOIN với bảng busRoute
+      {
+        $lookup: {
+          from: 'busroutes', // tên collection thật trong MongoDB (viết thường, số nhiều)
+          localField: 'busRoute',
+          foreignField: '_id',
+          as: 'busRoute',
+        },
+      },
+      {
+        $unwind: '$busRoute', // bóc tách mảng về object để filter dễ
+      },
+      // FILTER departure & destination
+      {
+        $match: {
+          ...filter,
+          departure_time: {
+            $gte: startDay,
+            $lt: endDay,
+          },
+          ...(departure && { 'busRoute.departure': departure }),
+          ...(destination && { 'busRoute.destination': destination }),
+        },
+      },
+      // JOIN thêm bus
+      {
+        $lookup: {
+          from: 'buses',
+          localField: 'bus',
+          foreignField: '_id',
+          as: 'bus',
+        },
+      },
+      { $unwind: '$bus' },
+
+      // JOIN thêm driver
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'driver',
+          foreignField: '_id',
+          as: 'driver',
+        },
+      },
+      { $unwind: '$driver' },
+      {
+        $project: {
+          'driver.password': 0, // loại bỏ password
+        },
+      },
+      // Pagination
+      { $skip: skip },
+      { $limit: limit },
+    ]);
+
+    return {
+      data: data,
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit),
+    };
 
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} trip`;
+  async findOne(id: string) {
+    try {
+      if (mongoose.isValidObjectId(id)) {
+        const data = await this.tripModel.findById(id)
+          .populate<{ bus: Bus }>("bus")
+          .populate<{ driver: User }>({ path: "driver", select: "-password" })
+          .populate<{ busRoute: BusRoute }>("busRoute");
+        if (!data) {
+          throw new BadGatewayException()
+        }
+        return data;
+      } else {
+        throw new BadGatewayException()
+      }
+
+    } catch (error) {
+      throw new BadGatewayException(error)
+    }
   }
 
   update(id: number, updateTripDto: UpdateTripDto) {
@@ -184,4 +272,33 @@ export class TripsService {
     }
     return deleteOne;
   }
+
+  async updateSlotsStatus(
+    tripId: string,
+    selectedSeats: string[],
+    status: 'available' | 'booking' | 'occupied',
+    paymentId?: mongoose.Types.ObjectId,
+    timeReserved?: Date,
+  ) {
+    // const trip = await this.tripModel.findById(tripId);
+    // if (!trip) { throw new BadGatewayException('Trip not found'); }
+
+    // Cập nhật từng slot được chọn
+    const update = await this.tripModel.updateOne(
+      { _id: tripId, 'slots.position': { $in: selectedSeats } },
+      {
+        $set: {
+          'slots.$[elem].status': status,
+          ...(paymentId && { 'slots.$[elem].payment': paymentId }),
+          ...(timeReserved && { 'slots.$[elem].timeReserved': timeReserved }),
+        }
+      },
+      {
+        arrayFilters: [{ 'elem.position': { $in: selectedSeats } }]
+      }
+    );
+
+    return update;
+  }
+
 }

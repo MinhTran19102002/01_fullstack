@@ -4,11 +4,11 @@ import { Button, notification, Popconfirm, Space, Table, Tag } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { createStyles } from 'antd-style';
 import { userAll, userDelete } from '@/utils/actions/user.action';
-import { busAll, busDelete } from '@/utils/actions/bus.acction';
+import { busAll, busDelete } from '@/utils/actions/bus.action';
 import { CarOutlined, ToolOutlined } from '@ant-design/icons';
 import ModalAddBusRoute from './modal.addTrip';
 import ModalEditBusRoute from './modal.editTrip';
-import { busRouteAll } from '@/utils/actions/busRoute';
+import { busRouteAll } from '@/utils/actions/busRoute.action';
 import { tripAll, tripDelete } from '@/utils/actions/trip.action';
 import { formatDateToVN } from '@/utils/util';
 

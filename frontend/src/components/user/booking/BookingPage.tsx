@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import InforBox from "./InforBox";
 import ModalSchedule from "./modal.schedule";
 import PayBox from "./PayBox";
+import MapBox from "./MapBox";
 
 const BookingPage = (data: any) => {
   const { id } = data
@@ -43,16 +44,13 @@ const BookingPage = (data: any) => {
     <div className="flex justify-center mt-6">
       <div className="container-width flex gap-4">
         {/*Cot 1*/}
-        <div></div>
+        <MapBox seats={seats} setSeats={setSeats} selectedSeats={selectedSeats} setSelectedSeats={setSelectedSeats} />
         {/* Cot 2 */}
         <div className="basis-1/3  flex flex-col  justify-center gap-4 h-fit">
           {/* Thong tin luot di */}
           <InforBox trip={trip} setIsModalOpen={setIsModalOpen} />
-
-          <ModalSchedule isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-
-
           <PayBox selectedSeats={selectedSeats} trip={trip} />
+          <ModalSchedule isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
         </div>
       </div>
     </div>

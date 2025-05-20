@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument, Types } from 'mongoose';
 
 export class Slot {
   @Prop()
@@ -7,6 +7,12 @@ export class Slot {
 
   @Prop({ enum: ['available', 'booking', 'occupied'], default: 'available' })
   status: string;
+
+  @Prop({ type: Date })
+  timeReserved: Date; // thời điểm bắt đầu giữ chỗ
+
+  @Prop({ type: Types.ObjectId, ref: 'Payment' })
+  payment: Types.ObjectId;
 }
 
 

@@ -4,7 +4,7 @@ import { Button, notification, Popconfirm, Space, Table, Tag } from 'antd';
 import type { TableColumnsType } from 'antd';
 import { createStyles } from 'antd-style';
 import { userAll, userDelete } from '@/utils/actions/user.action';
-import { busAll, busDelete } from '@/utils/actions/bus.acction';
+import { busAll, busDelete } from '@/utils/actions/bus.action';
 import ModalEditBus from './modal.editBus';
 import { CarOutlined, ToolOutlined } from '@ant-design/icons';
 import ModalAddBus from './modal.addBus';

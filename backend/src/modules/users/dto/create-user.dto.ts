@@ -20,6 +20,6 @@ export class CreateUserDto {
   image: string;
 
   @IsOptional()
-  @IsIn(['guest', 'driver'])
+  @IsIn(['available', 'booking', 'occupied'])
   role: string;
 }

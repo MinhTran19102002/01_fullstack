@@ -1,5 +1,4 @@
-import { Optional } from '@nestjs/common';
-import { BlobOptions } from 'buffer';
+
 import { IsDateString, IsIn, IsMongoId, IsNotEmpty, IsOptional, Matches } from 'class-validator';
 export class CreateTripDto {
   @IsMongoId()

@@ -6,6 +6,8 @@ interface IUser {
   _id: string;
   name: string;
   email: string;
+  aaddress?: string,
+  phone: string,
   isVerify: boolean,
   type: string;
   role: string;

@@ -107,3 +107,14 @@ export async function userDelete(_id: string) {
 
   }
 }
+
+export async function getUser() {
+  try {
+    // const { data: session } = useSession()
+    // console.log(session)
+    const sesion = await auth();
+    return sesion
+  } catch (error) {
+
+  }
+}

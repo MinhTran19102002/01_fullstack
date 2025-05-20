@@ -7,8 +7,8 @@ const UserLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex flex-col min-h-screen">
       <UserHeader session={session} />
-      <div className="pt-20 flex-grow">
-        <main className="flex-grow py-5">{children}</main>
+      <div className="pt-15 flex-grow">
+        <main className="flex-grow py-4">{children}</main>
       </div>
       <UserFooter />
     </main>
